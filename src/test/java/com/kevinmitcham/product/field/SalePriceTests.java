@@ -2,6 +2,7 @@ package com.kevinmitcham.product.field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.kevinmitcham.product.ProductRecord;
+import com.kevinmitcham.product.InputRow;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,9 +14,9 @@ public class SalePriceTests {
 
     @Test
 	public void testSalePrice() {
-        String inputLine = 
+        InputRow inputLine = new InputRow(
               //----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
-               "80000001 Sale price test white rice                                  00000000 00004123 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz";
+               "80000001 Sale price test white rice                                  00000000 00004123 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz");
         String expectedSaleDisplay = "$41.23";
         Double expectedSaleCalc = 41.23;
 

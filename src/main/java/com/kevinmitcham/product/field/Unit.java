@@ -1,16 +1,15 @@
 package com.kevinmitcham.product.field;
 
+import com.kevinmitcham.product.InputRow;
 import com.kevinmitcham.product.ProductRecord;
 
-public class Unit extends PassThrough {
+public class Unit implements ProductField {
 
-    public void addFieldToProduct(String inputLine, ProductRecord productRecord) {
-        String flags = extractString(123, 132, inputLine);
-        char[] asArray  = flags.toCharArray();
-        if (asArray[2] == 'Y'){
+    public void addFieldToProduct(InputRow row, ProductRecord productRecord) {
+        if (row.checkFlag( InputRow.FLAGS,InputRow.UNIT )){
             productRecord.setUnitOfMeasure("Pound");
         } else {
-                productRecord.setUnitOfMeasure("Each");
+            productRecord.setUnitOfMeasure("Each");
         }
         return;
     }

@@ -18,9 +18,9 @@ public class ProductRecordService {
     
     
     public ProductRecordService(){
-        // TODO: this is clumsy and ugly; and will scale poorly.
+        // TODO: this addition of fields is clumsy and ugly; and will scale poorly.
         // the fields are fairly static, so loading all this from flat files seems like overkill
-        // but with hundreds of fields, it will strain.  We could split the fields into groups, and do related things
+        // but with hundreds of fields, it will be hard to maintain.  We could split the fields into groups, and do related things
         fields.add(description);
         fields.add(basePrice);
         fields.add(salePrice);
@@ -28,13 +28,7 @@ public class ProductRecordService {
         fields.add(taxRate);  
         fields.add(unit);  
     }
-    public void parseAndSaveProductRecord(String inputLine){
-        // TODO:  can we skip unchanged records? 
-        ProductRecord productRecord = parseInputLine(inputLine);
-        System.out.println(inputLine);
-        System.out.println(productRecord);
 
-    }
 /*
 ----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
 80000001 Kimchi-flavored white rice                                  00000567 00000000 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz
@@ -45,13 +39,13 @@ public class ProductRecordService {
          1         2         3         4         5         6         7         8         9         0         1         2         3         4         5
 */
 
-    ProductRecord parseInputLine(String inputLine){
+    ProductRecord parseInputRow(InputRow row){
         // TODO validation as needed
-        String productId = inputLine.substring(0,8);
+        String productId = row.get("Product ID");
         ProductRecord productRecord = new ProductRecord(productId);
         // 
         for (ProductField field :fields){
-            field.addFieldToProduct(inputLine, productRecord);
+            field.addFieldToProduct(row, productRecord);
         }
         return productRecord;
     }

@@ -3,19 +3,14 @@ package com.kevinmitcham.product.field;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import com.kevinmitcham.product.InputRow;
 import com.kevinmitcham.product.ProductRecord;
 
 public class BasePrice implements ProductField {
     NumberFormat nfUS = NumberFormat.getCurrencyInstance(Locale.US);
-    int start = 69;
-    int end = 77;
-    int splitStart = 87;
-    int splitEnd = 95;
-    int quantityStart = 105;
-    int quantityEnd = 113;
     int ROUNDING = 4;
 
-    public void addFieldToProduct(String inputLine, ProductRecord productRecord) {
+    public void addFieldToProduct(InputRow row, ProductRecord productRecord) {
         // if price, use that
         //      set regularprice
         //      set regular display
@@ -25,11 +20,11 @@ public class BasePrice implements ProductField {
         //      compute split
         //      set regular price
         //      set display
-        String field = inputLine.substring(start, end);
+        String field = row.get(InputRow.REGULAR_EACH_PRICE);
         double price = Double.parseDouble(field)/100;
-        String splitField = inputLine.substring(splitStart, splitEnd);
+        String splitField = row.get(InputRow.REGULAR_SPLIT_PRICE);
         double splitPrice = Double.parseDouble(splitField)/100;
-        int quantity = Integer.parseInt(inputLine.substring(quantityStart, quantityEnd));
+        int quantity = Integer.parseInt(row.get(InputRow.REGULAR_SPLIT_QUANTITY));
         setPrices(price, splitPrice, quantity, productRecord);
     }
 
