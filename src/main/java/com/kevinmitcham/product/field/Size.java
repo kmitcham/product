@@ -11,7 +11,7 @@ public class Size implements ProductField {
         //    blank -> 'each'
         //    n x i<unit>-> i<unit>
         //    <unit>  -> 'per <unit'
-        productRecord.setProductSize((String) row.get(InputRow.PRODUCT_SIZE));
+        productRecord.setProductSize((String) row.get(InputRow.PRODUCT_SIZE).trim());
         return;
     }
 }

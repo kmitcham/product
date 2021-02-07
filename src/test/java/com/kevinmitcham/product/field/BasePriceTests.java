@@ -25,6 +25,19 @@ public class BasePriceTests {
         }
     }
     @Test
+	public void testNegativePrice() {
+        InputRow inputLine = new InputRow(
+        //----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
+         "80000001 Negative price                                              -0000666 00000000 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz");
+        String expectedDisplay = "-$6.66";
+        Double expectedCalc = 6.66;
+
+        basePrice.addFieldToProduct(inputLine, productRecord);
+
+        assertEquals(expectedDisplay, productRecord.getRegularDisplayPrice(),"Negative display");
+        assertEquals(expectedCalc, productRecord.getRegularCalculatorPrice(), "Negative calculator");
+    }
+    @Test
 	public void testBasePrice() {
         InputRow inputLine = new InputRow("80000001 Kimchi-flavored white rice                                  00000567 00000000 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz");
         String expectedDisplay = "$5.67";
@@ -50,5 +63,23 @@ public class BasePriceTests {
 
         assertEquals(expectedDisplay, productRecord.getRegularDisplayPrice(),"split display");
         assertEquals(expectedCalc, productRecord.getRegularCalculatorPrice(), "split calculator");        
+    }
+    @Test
+	public void testBaseAndSalePrice() {
+        InputRow inputLine = new InputRow(
+       //----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
+        "99999901 Testing base and sale price                                 00000555 00000444 00000333 00000222 00000002 00000002 NNNNNNNNN      18oz");
+       String expectedDisplay = "$5.55";
+        Double expectedCalc = 5.55;
+        String expectedSaleCalc = "$4.44";
+        Double expectedSaleDisplay = 4.44;
+        // this is a bit of an integration test, but want to make sure it works.
+        SalePrice salePrice = new SalePrice();
+        basePrice.addFieldToProduct(inputLine, productRecord);
+        salePrice.addFieldToProduct(inputLine, productRecord);
+        assertEquals(expectedDisplay, productRecord.getRegularDisplayPrice(),"regular display with sale");
+        assertEquals(expectedCalc, productRecord.getRegularCalculatorPrice(), "regular calculator with sale");
+        assertEquals(expectedSaleCalc, productRecord.getSaleDisplayPrice(),"sale display with base");
+        assertEquals(expectedSaleDisplay, productRecord.getSaleCaclulatorPrice(), "sale calculator with base");
     }
 }

@@ -11,7 +11,7 @@ public class Description implements ProductField  {
     }
     public void addFieldToProduct(InputRow row, ProductRecord productRecord) {
         String description = row.get(InputRow.PRODUCT_DESCRIPTION);
-        productRecord.setDescription(description.trim());//TODO QUESTION confirm trim is desired
+        productRecord.setDescription(description.trim());
         return;
     }
 }
