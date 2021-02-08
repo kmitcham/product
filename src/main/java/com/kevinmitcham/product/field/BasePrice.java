@@ -30,10 +30,12 @@ public class BasePrice implements ProductField {
 
     void setPrices(double price, double splitPrice, int quantity, ProductRecord productRecord){
         if (price != 0){
-            setValues(price, productRecord);
+            String display = doubleAsCash(price);
+            setValues(price, display, productRecord);
         } else if (splitPrice != 0 ) {
             price = splitPrice/quantity;
-            setValues(price, productRecord);
+            String display = quantity + " for "+doubleAsCash(splitPrice);
+            setValues(price, display,  productRecord);
         } else {
             setNulls(productRecord);
         }
@@ -44,10 +46,9 @@ public class BasePrice implements ProductField {
         productRecord.setRegularDisplayPrice(null);
 
     }
-    void setValues(double price, ProductRecord productRecord){
+    void setValues(double price, String display, ProductRecord productRecord){
         double rounded = roundToPlaces(price,4);
         productRecord.setRegularCalculatorPrice(rounded);
-        String display = getDisplayPrice(price);
         productRecord.setRegularDisplayPrice(display);
     }
 
@@ -63,7 +64,7 @@ public class BasePrice implements ProductField {
         return rounded;
     }
 
-    String getDisplayPrice(double price){
+    String doubleAsCash(double price){
         String formatted = nfUS.format(price);
         return formatted;
     }

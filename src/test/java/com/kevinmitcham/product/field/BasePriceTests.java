@@ -30,7 +30,7 @@ public class BasePriceTests {
         //----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
          "80000001 Negative price                                              -0000666 00000000 00000000 00000000 00000000 00000000 NNNNNNNNN      18oz");
         String expectedDisplay = "-$6.66";
-        Double expectedCalc = 6.66;
+        Double expectedCalc = -6.66;
 
         basePrice.addFieldToProduct(inputLine, productRecord);
 
@@ -57,7 +57,7 @@ public class BasePriceTests {
         InputRow inputLine = new InputRow(
        //----Id-- --Description---------------------------------------------- -RegPri- -salPri- -split-- -salspl- -regQua- -salQua- -flags--- -size----
         "80000001 Kimchi-flavored white rice                                  00000000 00000000 00000650 00000000 00000002 00000000 NNNNNNNNN      18oz");
-        String expectedDisplay = "$3.25";
+        String expectedDisplay = "2 for $6.50";
         Double expectedCalc = 3.25;
         basePrice.addFieldToProduct(inputLine, productRecord);
 

@@ -10,9 +10,9 @@ public class ProductRecord {
     public Double regularCalculatorPrice;
     public String saleDisplayPrice;
     public Double saleCaclulatorPrice;
-    public String unitOfMeasure; // TODO: switch this to enum of "Each|Pound"
+    public String unitOfMeasure; // TODO: switch this to enum of "Each|Pound"?
     public String productSize;
-    public Double taxRate; // 0 or 7.775%  TODO: confirm how we want to store tax value?  String, 7.775, or 0.07775
+    public Double taxRate; // 0 or 7.775% 
     public Instant lastUpdated;
 
     public ProductRecord(String id){

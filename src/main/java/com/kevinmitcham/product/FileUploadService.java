@@ -7,13 +7,14 @@ import java.util.Collection;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FileUploadService {
-    // TODO: move this to application properties
-    public String INPUT_FILE = "src/test/resources/input-sample.txt";
+    @Value("${product.inputfile}")
+    private String INPUT_FILE;
     static final int SECOND = 1000;
     @Autowired
     ProductRecordService productRecordService;

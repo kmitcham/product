@@ -24,10 +24,9 @@ public class SalePrice extends BasePrice {
     
     
     // Just like regular, but different fields and values
-    void setValues(double price, ProductRecord productRecord){
+    void setValues(double price, String display, ProductRecord productRecord){
         double rounded = roundToPlaces(price,4);
         productRecord.setSaleCaclulatorPrice(rounded);
-        String display = getDisplayPrice(price);
         productRecord.setSaleDisplayPrice(display);
     }
 
