@@ -29,6 +29,7 @@ public class ProductRecordService {
         fields.add(unit);  
     }
 
+
     ProductRecord parseInputRow(InputRow row){
         // TODO validation as needed
         String productId = row.get("Product ID");

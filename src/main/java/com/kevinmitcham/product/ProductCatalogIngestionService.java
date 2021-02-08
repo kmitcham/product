@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileUploadService {
-    @Value("${product.inputfile}")
+public class ProductCatalogIngestionService {
+    @Value("${product.catalog}")
     private String INPUT_FILE;
     static final int SECOND = 1000;
     @Autowired
