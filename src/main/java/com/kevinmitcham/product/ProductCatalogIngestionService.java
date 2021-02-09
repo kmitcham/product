@@ -34,6 +34,7 @@ public class ProductCatalogIngestionService {
     // instead of keeping a hash, we could delete the update file after getting it.
     // deleting is awfully permenant, so we will let the customer blow away the old one 
     // when the new one comes in, and just ignore the repeats until that happens.
+    // this may become large for some values of large.
     Map<String, byte[]> cachedProductHashes = new HashMap<>();
     
     // updates up to every minute, but maybe the file is big, and it takes us time to get through it, 
@@ -44,31 +45,28 @@ public class ProductCatalogIngestionService {
         try {
             File productFile = new File(INPUT_FILE);
             Scanner myReader = new Scanner(productFile);
-            boolean seenNewRecords = false;
             while (myReader.hasNextLine()) {                
                 String inputLine = myReader.nextLine();
                 try {
                     InputRow row = new InputRow(inputLine);
                     String productId = row.get(InputRow.PRODUCT_ID);
                     byte[] rowHash = getSHA(inputLine);
-                    if (cachedProductHashes.containsKey(productId) && Arrays.equals(
+                    if (cachedProductHashes.containsKey(productId) ) {
+                        if (Arrays.equals(
                             cachedProductHashes.get(productId),rowHash ) ) {
-                        logger.error("Skipping record already processed");
-                        continue;
-                    } else {
-                        seenNewRecords = true;
-                        cachedProductHashes.put(productId, rowHash);
-                        ProductRecord productRecord = productRecordService.parseInputRow(row);
-                        loadedRecords.add(productRecord);
+                            logger.info("Skipping record already processed for "+productId);
+                            continue;
+                        } 
                     }
+                    cachedProductHashes.put(productId, rowHash);
+                    ProductRecord productRecord = productRecordService.parseInputRow(row);
+                    loadedRecords.add(productRecord);
+                    
                 } catch (Exception e){
                     logger.error( "Skipped record due to exception"  );
                     logger.error(inputLine);
                     logger.error(e.getMessage());
                 }
-            }
-            if (seenNewRecords){
-                cachedProductHashes.clear();// so the map doesn't keep filling up
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -93,7 +91,7 @@ public class ProductCatalogIngestionService {
     public void sendToDummyDB(Collection<ProductRecord> productRecords){
         logger.info(" sent "+productRecords.size()+ " to dummy db");
         for (ProductRecord pr: productRecords){
-            logger.debug(pr.toString());
+            logger.info(pr.toString());
         }
     }
 }

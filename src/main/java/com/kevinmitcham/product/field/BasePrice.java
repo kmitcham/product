@@ -36,16 +36,9 @@ public class BasePrice implements ProductField {
             price = splitPrice/quantity;
             String display = quantity + " for "+doubleAsCash(splitPrice);
             setValues(price, display,  productRecord);
-        } else {
-            setNulls(productRecord);
         }
     }
     
-    void setNulls(ProductRecord productRecord){
-        productRecord.setRegularCalculatorPrice(null);
-        productRecord.setRegularDisplayPrice(null);
-
-    }
     void setValues(double price, String display, ProductRecord productRecord){
         double rounded = roundToPlaces(price,4);
         productRecord.setRegularCalculatorPrice(rounded);
